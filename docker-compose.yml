@@ -1,0 +1,31 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: ticketing-master-redis
+    ports:
+      - '6380:6379'
+    volumes:
+      - ticketing-master-redis-data:/data
+    # restart: unless-stopped  # 나중에 서버 배포 시 주석 해제 (컨테이너 자동 재시작)
+
+  # 로컬에 MySQL이 이미 설치되어 있어 3306 포트 충돌 방지를 위해 3308로 매핑
+  mysql:
+    image: mysql:8.0
+    container_name: ticketing-master-mysql
+    ports:
+      - '3308:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ticketing_master
+      MYSQL_USER: ticketmaster
+      MYSQL_PASSWORD: 1234
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ticketing-master-mysql-data:/var/lib/mysql
+    # restart: unless-stopped
+
+volumes:
+  ticketing-master-mysql-data:
+  ticketing-master-redis-data:
