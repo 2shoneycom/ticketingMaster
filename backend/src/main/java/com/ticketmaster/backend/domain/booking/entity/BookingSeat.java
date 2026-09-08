@@ -14,7 +14,11 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @Entity
-@Table(name = "booking_seats")
+@Table(name = "booking_seats",
+        indexes = {
+                @Index(name = "idx_booking_seat_booking_id", columnList = "booking_id")
+        }
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookingSeat extends BaseEntity {
 
